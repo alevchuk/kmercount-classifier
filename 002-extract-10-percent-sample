@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+IN_FASTA = "uniprot_2011_02.tab"
+
+SAMPLE = File.open("sample-10-percent-id-numbers"){|f| f.lines.map{|l|l.to_i} }
+SAMPLE.sort!
+
+File.open("uniprot_2011_02_sample.tab", 'w') do |trfile|
+File.open("uniprot_2011_02_remaining90.tab", 'w') do |verfile|
+File.open("uniprot_2011_02.tab", 'r') do |infile|
+  infile.each do |line|
+
+    STDERR.puts infile.lineno if (infile.lineno % 10000) == 0
+
+    if SAMPLE.first == infile.lineno
+      SAMPLE.delete_at 0
+      trfile.puts line
+    else
+      verfile.puts line
+    end
+  end
+end
+end
+end

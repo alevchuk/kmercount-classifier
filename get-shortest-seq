@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+min = nil
+STDIN.each_line do |line|
+  s = line.chomp.split("\t")[1].size
+  if min.nil? or s <= min
+    min = s
+    puts [min, line]
+  end
+end

@@ -1,0 +1,41 @@
+#!/usr/bin/env Rscript
+
+runlen <- as.integer(commandArgs(trailingOnly=T)[[1]])
+
+cat("Loading Data...\n")
+biol_df <- read.table(paste(sep="", "frequencies-", runlen, "p-sample"),
+                  header=F, na.strings="---", row.names=1)
+
+shuf_df <- read.table(paste(sep="", "frequencies-", runlen, "p-shuffled"),
+                  header=F, na.strings="---", row.names=1)
+
+
+cat("Analysing...\n")
+
+m <- merge(biol_df, shuf_df, by.x=0, by.y=0, all=T)
+x <- m$V2.x
+y <- m$V2.y
+x[is.na(x)] <- 1
+y[is.na(y)] <- 1
+
+freqs <- cbind(x,y)
+rownames(freqs) <- m[,1]
+
+
+# Divide the larger by smaller count
+ratios <- apply(freqs, 1, max) / apply(freqs, 1, min)
+
+# Remove all the ties (ratio == 1)
+ratios[ratios==1] <- 0
+
+# Sort
+ratios <- sort(ratios)
+
+# Negate those where shuffled was larger
+shuf_ratio_ids <- apply(freqs, 1, function(x) x[[1]] < x[[2]])
+ratios[shuf_ratio_ids] <- -(ratios[shuf_ratio_ids])
+
+write.table(ratios, paste(sep="-", "ratios", runlen, "mers"))
+
+###Rprof(NULL)
+###summaryRprof("Rprof.out")
