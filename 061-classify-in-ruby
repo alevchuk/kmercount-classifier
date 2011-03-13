@@ -89,4 +89,4 @@ printer.print(STDERR, 0)
 
 
 
-puts [biol_prediction_counts, shuf_prediction_counts].join(" ")
+#puts [biol_prediction_counts, shuf_prediction_counts].join(" ")
