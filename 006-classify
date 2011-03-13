@@ -84,8 +84,9 @@ classifier1 <- function(seq) {
 
 main <- function() {
 #con <- file("t.tab", "r")
-  con <- file("uniprot_2011_02_remaining90.tab", "r")
-  #con <- file("shuffled-sample.tab", "r")
+  con <- file("stdin", "r")
+  #con <- file("uniprot_2011_02_remaining90.tab", "r")
+  #con <- file("shuffled-remaining90.tab", "r")
   line_number <- 0
   while (length(line <- readLines(con, n = 1, warn = FALSE)) > 0) {
     # Look at the sequences not the headers!
@@ -104,8 +105,8 @@ main <- function() {
   
     line_number <- line_number + 1
   
-    if (line_number %% 100 == 0)
-      break #system("date") 
+    if (line_number %% 1000000 == 0)
+      system("(echo -n 'the million landmark\t'; date) > /dev/stderr") 
     
   }
   close(con)
