@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+ 
+def print_bell_numbers(start, finish)
+    # Initialize the Bell triangle as a two-dimensional array
+    triangle = Array[Array[1]]
+ 
+    # Make sure "start" is less than "finish", and both numbers are at least 1
+    (finish, start = start, finish) if finish < start
+    start = 1 if start < 1
+    finish = 1 if finish < 1
+ 
+    1.upto(finish-1) do |row_num|
+ 
+        # Set the first element of the current row to be the last element
+        # of the previous row
+        current_row = [triangle[row_num-1][row_num-1]]
+ 
+        # Calculate the rest of the elements in this row, then add the row
+        # to the Bell triangle
+        1.upto(row_num) do |col_num|
+            sum = triangle[row_num-1][col_num-1] + current_row[col_num-1]
+            current_row.push(sum)
+        end
+ 
+        triangle[row_num] = current_row
+ 
+    end
+ 
+    # Print out the Bell numbers
+    start.upto(finish) do |num|
+        puts triangle[num-1][0]
+    end
+end
+ 
+# Adjust the limits here
+print_bell_numbers(1, 26)
+
