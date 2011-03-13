@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+ALPHABET = {}
+
+STDIN.each_line do |l|
+  s = l.chomp.split("\t")[1]
+  s.split('').each{|a| ALPHABET[a] = true}
+end
+
+puts ALPHABET.keys.sort

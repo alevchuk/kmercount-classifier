@@ -1,9 +1,0 @@
-#!/usr/bin/env Rscript
-
-n <- as.integer(commandArgs(trailingOnly=T)[[1]])
-
-x <- 1:n
-x <- names(x) <- paste("name", as.character(1:n), sep="")
-
-system.time(x[paste("name1", sep="")])
-system.time(x[paste("name", n, sep="")])

@@ -1,9 +1,0 @@
-#!/usr/bin/env Rscript
-
-data <- "uniprot_2011_02.tab"
-size <- as.numeric(system(paste('cat', data, ' | wc -l'), intern=T))
-part <- 1/10
-
-set.seed(1)
-x <- sample(1:size, size * part)
-write(x, "sample-10-percent-id-numbers", sep = "\n")
