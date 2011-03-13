@@ -1,13 +1,15 @@
 #!/usr/bin/env ruby
 
-IN_FASTA = "uniprot_2011_02.tab"
+IN   = "uniprot_2011_02.tab"
+OUT  = "uniprot_2011_02_sample.tab"
+OUT2 = "uniprot_2011_02_remaining90.tab"
 
 SAMPLE = File.open("sample-10-percent-id-numbers"){|f| f.lines.map{|l|l.to_i} }
 SAMPLE.sort!
 
-File.open("uniprot_2011_02_sample.tab", 'w') do |trfile|
-File.open("uniprot_2011_02_remaining90.tab", 'w') do |verfile|
-File.open("uniprot_2011_02.tab", 'r') do |infile|
+File.open(OUT, 'w') do |trfile|
+File.open(OUT2, 'w') do |verfile|
+File.open(IN, 'r') do |infile|
   infile.each do |line|
 
     STDERR.puts infile.lineno if (infile.lineno % 10000) == 0
