@@ -1,0 +1,81 @@
+#!/usr/bin/env Rscript
+
+#library("verification")
+library(ROCR)
+
+observed <- c(rep(1,126223), rep(0,126223))
+
+predicted_2p <- c(
+  as.vector(read.table("class-pred-top10f-2p-1ps-biol")$V1),
+  as.vector(read.table("class-pred-top10f-2p-1ps-shuff")$V1)
+)
+
+predicted_3p <- c(
+  as.vector(read.table("class-pred-top10f-3p-1ps-biol")$V1),
+  as.vector(read.table("class-pred-top10f-3p-1ps-shuff")$V1)
+)
+
+predicted_4p <- c(
+  as.vector(read.table("class-pred-top10f-4p-1ps-biol")$V1),
+  as.vector(read.table("class-pred-top10f-4p-1ps-shuff")$V1)
+)
+
+predicted_5p <- c(
+  as.vector(read.table("class-pred-top10f-5p-1ps-biol")$V1),
+  as.vector(read.table("class-pred-top10f-5p-1ps-shuff")$V1)
+)
+
+#predicted_6p <- c(
+#  as.vector(read.table("class-pred-top10f-6p-1ps-biol")$V1),
+#  as.vector(read.table("class-pred-top10f-6p-1ps-shuff")$V1)
+#)
+
+
+p <- function(predicted) {
+  predicted_shift <- predicted - min(predicted)
+  predicted_shift / max(predicted_shift)
+}
+
+
+#observed <- c(rep(T,200), rep(F,200))
+
+predicnorm_2p <- c(p(predicted_2p))
+predicnorm_3p <- c(p(predicted_3p))
+predicnorm_4p <- c(p(predicted_4p))
+predicnorm_5p <- c(p(predicted_5p))
+#predicnorm_6p <- c(p(predicted_6p))
+
+pred_2p <- prediction(predicnorm_2p, observed)
+pred_3p <- prediction(predicnorm_3p, observed)
+pred_4p <- prediction(predicnorm_4p, observed)
+pred_5p <- prediction(predicnorm_5p, observed)
+#pred_6p <- prediction(predicnorm_6p, observed)
+
+auc_2p <- performance(pred_2p, "auc")@y.values[[1]][1]
+auc_3p <- performance(pred_3p, "auc")@y.values[[1]][1]
+auc_4p <- performance(pred_4p, "auc")@y.values[[1]][1]
+auc_5p <- performance(pred_5p, "auc")@y.values[[1]][1]
+#auc_6p <- performance(pred_6p, "auc")@y.values[[1]][1]
+
+
+png('roc-2-3-4-5-6-top10.png', width = 480, height = 480, units = "px")
+plot(performance(pred_2p,"tpr","fpr"), col=8, lwd=16)
+plot(performance(pred_3p,"tpr","fpr"), col=4, lwd=8, add=T)
+plot(performance(pred_4p,"tpr","fpr"), col=3, lwd=4, add=T)
+plot(performance(pred_5p,"tpr","fpr"), col=2, lwd=2, add=T)
+#plot(performance(pred_6p,"tpr","fpr"), col=1, lwd=1, add=T)
+
+#grid(col="black") #lty=3, col="gray")
+abline( v=0:10/10, h=0:10/10, lty=3, col="black") 
+
+leg.txt <- c(
+  paste(sep="", "2-mers (", signif(auc_2p, 2), " area under the curve)"),
+  paste(sep="", "3-mers (", signif(auc_3p, 2), " area under the curve)"),
+  paste(sep="", "4-mers (", signif(auc_4p, 2), " area under the curve)"),
+  paste(sep="", "5-mers (", signif(auc_5p, 2), " area under the curve)") #,
+  #paste(sep="", "6-mers (", signif(auc_6p, 2), " area under the curve)")
+)
+legend("bottomright", inset=0.037, leg.txt,
+  col = c(8,4,3,2,1), lwd = c(16,8,4,2,1))
+
+dev.off()
