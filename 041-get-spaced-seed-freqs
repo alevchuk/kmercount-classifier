@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+if ARGV.size != 2 or !(ARGV[0] =~ /\A[0-9]+\Z/) or !(ARGV[1] =~ /\A[0-9]+\Z/)
+  STDERR.puts "USAGE: 004-get-pattern-frequencies <runlength> <seed-lineno>"
+  exit 1
+end
+
+RUNLEN = ARGV[0].to_i
+SEED_LINENO = ARGV[1].to_i
+
+# Load Seeds
+SEEDS = File.open("SEEDS-#{RUNLEN}p") do |f|
+  f.collect do |line| 
+    seed = line.split(" ") # can be a multi-seed (with variance)
+    seed.select do |s|
+      if s.scan('x').size != RUNLEN
+        STDERR.puts "WARNING: Bad seed on line #{f.lineno}"
+        next false
+      end
+      next true
+    end
+  end
+end
+
+SEED = SEEDS[SEED_LINENO - 1]
+raise if SEED.nil?
+
+
+PATTERN_FREQUENCIES = Hash.new(0)
+
+STDIN.each_line do |l|
+  seq = l.chomp.split("\t")[1]
+  if seq.nil?
+    STDERR.puts "WARNING: s is nil on line #{STDIN.lineno}!"
+    next
+  end
+
+  SEED.each do |seed|
+    seedlocs = []
+    seed.split('').each_with_index{|x,i| seedlocs.push(i) if x == 'x'}
+
+    sset_positions = (0..(seq.size - seed.size)).collect do |i|
+      seedlocs.collect{|l| i + l}
+    end
+
+    ssets = sset_positions.collect do |positions|
+      positions.collect{|p| seq[p..p]}.join('')
+    end
+   
+    ssets.each {|sset| PATTERN_FREQUENCIES[sset] += 1 }
+  end
+end
+
+PATTERN_FREQUENCIES.sort{|x,y| x[1] <=> y[1]}.each {|k, v| puts "#{k}\t#{v}"}
