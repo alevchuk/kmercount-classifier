@@ -2,11 +2,11 @@
 
 for p in 2 3 4; do
   for s in `seq 1 10`; do
-    echo "cat uniprot_2011_02_sample.tab | \
+    echo "time cat uniprot_2011_02_sample.tab | \
     ./041-get-spaced-seed-freqs $p $s > seed-frequencies-${p}p/s$s-biol" | 
     qsub -l nodes=1:ppn=1 -N freq-${p}p-seed$s-biol -d `pwd`
 
-    echo "cat shuffled-sample.tab | \
+    echo "time cat shuffled-sample.tab | \
     ./041-get-spaced-seed-freqs $p $s > seed-frequencies-${p}p/s$s-shuf" | 
     qsub -l nodes=1:ppn=1 -N freq-${p}p-seed$s-shuf -d `pwd`
   done
@@ -14,11 +14,11 @@ done
 
 for p in 5; do
   for s in `seq 1 10`; do
-    echo "cat uniprot_2011_02_sample.tab | \
+    echo "time cat uniprot_2011_02_sample.tab | \
     ./041-get-spaced-seed-freqs $p $s > seed-frequencies-${p}p/s$s-biol" | 
     qsub -l nodes=1:ppn=8 -N freq-${p}p-seed$s-biol -d `pwd`
 
-    echo "cat shuffled-sample.tab | \
+    echo "time cat shuffled-sample.tab | \
     ./041-get-spaced-seed-freqs $p $s > seed-frequencies-${p}p/s$s-shuf" | 
     qsub -l nodes=1:ppn=8 -N freq-${p}p-seed$s-shuf -d `pwd`
   done
@@ -26,11 +26,11 @@ done
 
 for p in 6; do
   for s in `seq 1 10`; do
-    echo "cat uniprot_2011_02_sample.tab | \
+    echo "time cat uniprot_2011_02_sample.tab | \
     ./041-get-spaced-seed-freqs $p $s > seed-frequencies-${p}p/s$s-biol" | 
     qsub -l nodes=1:ppn=16 -N freq-${p}p-seed$s-biol -d `pwd`
 
-    echo "cat shuffled-sample.tab | \
+    echo "time cat shuffled-sample.tab | \
     ./041-get-spaced-seed-freqs $p $s > seed-frequencies-${p}p/s$s-shuf" | 
     qsub -l nodes=1:ppn=16 -N freq-${p}p-seed$s-shuf -d `pwd`
   done

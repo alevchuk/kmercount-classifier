@@ -1,0 +1,15 @@
+#!/bin/bash
+
+for p in 2; do
+  for s in `seq 1 10`; do
+    echo "time cat shuffled-1-percent-sample.tab | \
+      ./062-classify-seed-freqs $p $s > \
+      seed-based-predictions/${p}p-s${s}-1ps-shuf" | 
+      qsub -l nodes=1:ppn=1 -N class-${p}p-s$s-shuf -d `pwd`
+  
+    echo "time cat uniprot_2011_02_1-percent-sample.tab | \
+      ./062-classify-seed-freqs $p $s > \
+      seed-based-predictions/${p}p-s${s}-1ps-biol" |
+      qsub -l nodes=1:ppn=1 -N class-${p}p-s$s-biol -d `pwd`
+  done
+done
