@@ -2,14 +2,17 @@
 
 library(ROCR)
 
-seed_lineno <- as.integer(commandArgs(trailingOnly=T)[[1]])
+runlen      <- as.integer(commandArgs(trailingOnly=T)[[1]])
+seed_lineno <- as.integer(commandArgs(trailingOnly=T)[[2]])
 
 observed <- c(rep(1,126223), rep(0,126223))
 
 predicted_2p <- c(
-  as.vector(read.table(paste(sep="", "seed-based-predictions/2p-s",
+  as.vector(read.table(paste(sep="", "seed-based-predictions/",
+    runlen, "p-s",
     seed_lineno, "-1ps-biol"))$V1),
-  as.vector(read.table(paste(sep="", "seed-based-predictions/2p-s",
+  as.vector(read.table(paste(sep="", "seed-based-predictions/",
+    runlen, "p-s",
     seed_lineno, "-1ps-shuf"))$V1)
 )
 

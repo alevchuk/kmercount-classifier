@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for p in 2; do
+for p in 4; do
   for s in `seq 1 10`; do
     echo "time cat shuffled-1-percent-sample.tab | \
       ./062-classify-seed-freqs $p $s > \

@@ -1,0 +1,27 @@
+#!/usr/bin/env Rscript
+
+runlen <- commandArgs(trailingOnly=T)[[1]]
+
+cat("Loading Data...\n")
+n <- read.delim(paste(sep="", "frequencies-", runlen, "p-sample"), header=F)
+s <- read.delim(paste(sep="", "frequencies-", runlen, "p-shuffled"), header=F)
+
+m <- merge(n, s, by.x=1, by.y=1, all=T)
+x <- m$V2.x
+y <- m$V2.y
+
+# Make all NAs == 1
+m$V2.x[is.na(m$V2.x)] <- 1
+m$V2.y[is.na(m$V2.y)] <- 1
+
+m$larger <- (as.integer(m[,c("V2.x")] > m[,c("V2.y")]) * 2) - 1
+
+maxv <- pmax(m[,c("V2.x")], m[,c("V2.y")]) 
+minv <- pmin(m[,c("V2.x")], m[,c("V2.y")]) 
+m$x_y_ratio <- maxv / minv * m[,"larger"]
+
+cat("Top 10:\n")
+m[order(-m$x_y_ratio),][0:10, c(1,2,3,5)]
+
+cat("\nBottom 10:\n")
+m[order(m$x_y_ratio),][0:10,c(1,2,3,5)]

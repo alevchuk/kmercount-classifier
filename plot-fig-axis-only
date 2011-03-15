@@ -1,0 +1,49 @@
+#!/usr/bin/env Rscript
+
+
+
+cat("Plotting...\n")
+output_file_png <- "fig-axis.png"
+output_file_svg <- "fig-axis.svg"
+
+png(output_file_png, height=1000, width=1000, unit="px", pointsize=13)
+
+par(mar=c(10, 10, 2, 2))
+
+
+# runlen2
+#plot(c(0.5, 4635375), c(0.5, 4599100), log="xy",  axes=FALSE, ylab="", xlab="")
+
+## runlen3
+#plot(c(0.5, 608621), c(0.5, 503388), log="xy",  axes=FALSE, ylab="", xlab="")
+
+## 4
+#plot(c(0.5, 165964), c(0.5, 58230), log="xy",  axes=FALSE, ylab="", xlab="")
+
+# 5
+#plot(c(0.5, 162910), c(0.5, 37699), log="xy",  axes=FALSE, ylab="", xlab="")
+
+# 6
+plot(c(0.5, 160224), c(0.5, 33241), log="xy",  axes=FALSE, ylab="", xlab="")
+#160224, #33241
+
+axis(1,signif(exp(0:16)), c("1","2.7","7.3","20","54","150","400","1,100",
+ "3,000","8,000","22,000","60,000","160,000","442,000","1.2 M","3.3 M", 
+ 0
+), las=2)
+
+axis(2,signif(exp(0:16)), c("1","2.7","7.3","20","54","150","400","1,100",
+ "3,000","8,000","22,000","60,000","160,000","442,000","1.2 M","3.3 M",
+ 0
+), las=2)
+
+abline(
+  v=c("1","2.72","7.39","20.1","54.6","148","403","1100",
+      2.98e+3,8.1e+3,2.2e+4,5.99e+4,1.63e+5,4.42e+5,1.2e+6,3.27e+6),
+  h=c(1,2.72,7.39,20.1,54.6,148,403,1.1e+3,
+      2.98e+3,8.1e+3,2.2e+4,5.99e+4,1.63e+5,4.42e+5,1.2e+6,3.27e+6),
+  lty=3, col="gray")
+
+abline(0, 1, col = "red", lwd = 2)
+
+dev.off()

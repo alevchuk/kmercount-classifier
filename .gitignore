@@ -6,3 +6,9 @@ uniprot_2011_02*
 uniprot_2011_02*
 uniprot_2011_02*
 class-pred*
+seed-frequencies-*
+seed-based-predictions/
+freq-*.o*
+freq-*.e*
+class-*.o*
+class-*.e*
