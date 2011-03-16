@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 
 runlen <- commandArgs(trailingOnly=T)[[1]]
+#   runlen <- 6
 
 cat("Loading Data...\n")
 n <- read.delim(paste(sep="", "frequencies-", runlen, "p-sample"), header=F)
@@ -21,7 +22,7 @@ minv <- pmin(m[,c("V2.x")], m[,c("V2.y")])
 m$x_y_ratio <- maxv / minv * m[,"larger"]
 
 cat("Top 10:\n")
-m[order(-m$x_y_ratio),][0:10, c(1,2,3,5)]
+m[order(-m$x_y_ratio),][0:10000, c(1,2,3,5)]
 
 cat("\nBottom 10:\n")
-m[order(m$x_y_ratio),][0:10,c(1,2,3,5)]
+m[order(m$x_y_ratio),][0:10000,c(1,2,3,5)]

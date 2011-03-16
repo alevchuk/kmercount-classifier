@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+
+# This code is from Wikipedia
+# http://en.wikipedia.org/wiki/Bell_number#Computer_program
  
 def print_bell_numbers(start, finish)
     # Initialize the Bell triangle as a two-dimensional array

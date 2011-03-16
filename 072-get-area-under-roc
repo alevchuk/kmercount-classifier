@@ -1,0 +1,67 @@
+#!/usr/bin/env Rscript
+
+library(ROCR)
+
+script.args <- commandArgs(trailingOnly=T)
+if(length(script.args) != 2) {
+  cat(paste(
+    paste("Usage: 072-get-area-under-roc <score-of-biol> <score-of-randoms>\n"),
+    "Required Options",
+    "  <score-of-biol> file, 1 floting point prediction score per line",
+    "  <score-of-randoms> same as above but for the false data",
+    "",
+    sep="\n"))
+  quit()
+}
+
+score_of_biol    <- commandArgs(trailingOnly=T)[[1]]
+score_of_randoms <- commandArgs(trailingOnly=T)[[2]]
+
+predicted_scores <- list(
+  as.vector(read.table(file=score_of_biol)$V1),
+  as.vector(read.table(file=score_of_randoms)$V1)
+)
+
+
+if (length(predicted_scores[[1]]) != length(predicted_scores[[2]])) {
+  cat("ERROR: Missmatch in list size of score-of-biol and score-of-rand\n",
+    file = stderr())
+  quit()
+}
+
+numseqs <- length(predicted_scores[[1]])
+observed <- c(rep(2, numseqs), rep(0,numseqs))
+
+
+predicted_all <- c(predicted_scores[[1]], predicted_scores[[2]])
+
+normalize <- function(predicted) {
+  predicted_shift <- predicted - min(predicted)
+  predicted_shift / max(predicted_shift)
+}
+
+predicnorm <- normalize(predicted_all)
+
+pred <- prediction(predicnorm, observed)
+
+auc <- performance(pred, "auc")@y.values[[1]][1]
+print(auc)
+
+
+png('roc.png', width = 480, height = 480, units = "px")
+#plot(performance(pred, "tpr","fpr"), col=8, lwd=16)
+plot(performance(pred, "tpr","fpr"), col=1, lwd=1)
+
+# Grid
+abline( v=0:10/10, h=0:10/10, lty=3, col="black") 
+
+#leg.txt <- c(
+#  paste(sep="", "2-mers (", signif(auc_2p, 2), " area under the curve)") #,
+#)
+leg.txt <- c(paste("Aread under the curve is", signif(auc, 2)))
+#legend("bottomright", inset=0.037, leg.txt,
+#  col = c(8,4,3,2,1), lwd = c(16,8,4,2,1))
+legend("bottomright", inset=0.037, leg.txt,
+  col = c(1), lwd = c(1))
+
+dev.off()

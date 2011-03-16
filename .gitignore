@@ -1,3 +1,5 @@
+seed-based-predictions/
+mining-in-6p-frequencies/
 *~
 shuffled-*
 frequencies-*
@@ -7,8 +9,7 @@ uniprot_2011_02*
 uniprot_2011_02*
 class-pred*
 seed-frequencies-*
-seed-based-predictions/
 freq-*.o*
 freq-*.e*
-class-*.o*
-class-*.e*
+cl*.o*
+cl*.e*

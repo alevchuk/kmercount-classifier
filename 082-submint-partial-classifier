@@ -1,0 +1,8 @@
+echo "time cat uniprot_2011_02_1-percent-sample.tab | \
+  ./064-classify-7p-partial-in-ruby > class-predictions-7p-1ps-biol-in-ruby" | \
+  qsub -l nodes=1:ppn=1 -d `pwd` -N clrb-7p-bio
+
+
+echo "time cat shuffled-1-percent-sample.tab | \
+  ./064-classify-7p-partial-in-ruby > class-predictions-7p-1ps-shuff-in-ruby" | \
+  qsub -l nodes=1:ppn=1 -d `pwd` -N clrb-7p-shf

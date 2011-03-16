@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for part in frequencies-7p-sample-part-*; do
+  echo "${part}"
+done
+
+for part in frequencies-7p-shuffled-part-*; do
+  echo "${part}"
+done

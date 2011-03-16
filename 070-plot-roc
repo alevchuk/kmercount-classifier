@@ -6,28 +6,28 @@ library(ROCR)
 observed <- c(rep(1,126223), rep(0,126223))
 
 predicted_2p <- c(
-  as.vector(read.table("class-predictions-2p-1ps-biol")$V1),
-  as.vector(read.table("class-predictions-2p-1ps-shuff")$V1)
+  as.vector(read.table("class-predictions-2p-rem90-biol")$V1),
+  as.vector(read.table("class-predictions-2p-rem90-shuff")$V1)
 )
 
 predicted_3p <- c(
-  as.vector(read.table("class-predictions-3p-1ps-biol")$V1),
-  as.vector(read.table("class-predictions-3p-1ps-shuff")$V1)
+  as.vector(read.table("class-predictions-3p-rem90-biol")$V1),
+  as.vector(read.table("class-predictions-3p-rem90-shuff")$V1)
 )
 
 predicted_4p <- c(
-  as.vector(read.table("class-predictions-4p-1ps-biol")$V1),
-  as.vector(read.table("class-predictions-4p-1ps-shuff")$V1)
+  as.vector(read.table("class-predictions-4p-rem90-biol")$V1),
+  as.vector(read.table("class-predictions-4p-rem90-shuff")$V1)
 )
 
 predicted_5p <- c(
-  as.vector(read.table("class-predictions-5p-1ps-biol")$V1),
-  as.vector(read.table("class-predictions-5p-1ps-shuff")$V1)
+  as.vector(read.table("class-predictions-5p-rem90-biol")$V1),
+  as.vector(read.table("class-predictions-5p-rem90-shuff")$V1)
 )
 
 predicted_6p <- c(
-  as.vector(read.table("class-predictions-6p-1ps-biol")$V1),
-  as.vector(read.table("class-predictions-6p-1ps-shuff")$V1)
+  as.vector(read.table("class-predictions-6p-rem90-biol")$V1),
+  as.vector(read.table("class-predictions-6p-rem90-shuff")$V1)
 )
 
 
@@ -64,7 +64,7 @@ auc_5p <- performance(pred_5p, "auc")@y.values[[1]][1]
 auc_6p <- performance(pred_6p, "auc")@y.values[[1]][1]
 
 
-png('roc-2-3-4-5-6-all.png', width = 480, height = 480, units = "px")
+png('roc-2-3-4-5-6-rem90.png', width = 640, height = 640, units = "px")
 plot(performance(pred_2p,"tpr","fpr"), col=8, lwd=16)
 plot(performance(pred_3p,"tpr","fpr"), col=4, lwd=8, add=T)
 plot(performance(pred_4p,"tpr","fpr"), col=3, lwd=4, add=T)

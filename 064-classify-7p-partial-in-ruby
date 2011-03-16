@@ -1,26 +1,17 @@
 #!/usr/bin/env ruby
 
-#require 'ruby-prof'
-
-
-
-if ARGV.size != 1 or !(ARGV.first =~ /\A[0-9]+\Z/)
-  STDERR.puts "USAGE: 061-classify-in-ruby <runlength>"
-  exit 1
-end
-
-RUNLEN = ARGV.first.to_i
+RUNLEN = 7
 
 BIOL = {}
 t = Time.now
-File.open("frequencies-#{RUNLEN}p-sample") do |f|
+File.open("./frequencies-7p-sample-part-ai") do |f|
   f.each {|l| s, f = l.split("\t"); BIOL[s] = f.to_i}
 end
 STDERR.puts "Building BIOL hash took #{Time.now - t} seconds"
 
 SHUF = {}
 t = Time.now
-File.open("frequencies-#{RUNLEN}p-shuffled") do |f|
+File.open("./frequencies-7p-shuffled-part-am") do |f|
   f.each {|l| s, f = l.split("\t"); SHUF[s] = f.to_i}
 end
 STDERR.puts "Building SHUF hash took #{Time.now - t} seconds"
@@ -54,10 +45,7 @@ def classifier1(seq)
   end
 
   # Final score
-  score = ratios.inject(nil){ |sum,x| sum ? sum+x : x }
-
-  # Return 0 if score is nil
-  score ? score : 0
+  ratios.inject(nil){ |sum,x| sum ? sum+x : x }
 
 end
 
