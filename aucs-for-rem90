@@ -1,0 +1,4 @@
+for i in `seq 2 4`; do ./072-get-area-under-roc class-predictions-${i}p-rem90-biol class-predictions-${i}p-rem90-shuff 2> /dev/null | tail -n 3  | head -n 1; done
+[1] 0.741526
+[1] 0.8475355
+[1] 0.8810877

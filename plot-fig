@@ -3,8 +3,8 @@
 runlen <- commandArgs(trailingOnly=T)[[1]]
 
 cat("Loading Data...\n")
-n <- read.delim(paste(sep="", "frequencies-", runlen, "p-sample"), header=F)
-s <- read.delim(paste(sep="", "frequencies-", runlen, "p-shuffled"), header=F)
+n <- read.delim(paste(sep="", "frequencies-", runlen, "p-sample-tmp"), header=F)
+s <- read.delim(paste(sep="", "frequencies-", runlen, "p-shuffled-tmp"), header=F)
 
 m <- merge(n, s, by.x=1, by.y=1, all=T)
 x <- m$V2.x

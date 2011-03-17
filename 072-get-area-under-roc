@@ -58,7 +58,7 @@ abline( v=0:10/10, h=0:10/10, lty=3, col="black")
 #leg.txt <- c(
 #  paste(sep="", "2-mers (", signif(auc_2p, 2), " area under the curve)") #,
 #)
-leg.txt <- c(paste("Aread under the curve is", signif(auc, 2)))
+leg.txt <- c(paste("Aread under the curve is", signif(auc, 3)))
 #legend("bottomright", inset=0.037, leg.txt,
 #  col = c(8,4,3,2,1), lwd = c(16,8,4,2,1))
 legend("bottomright", inset=0.037, leg.txt,

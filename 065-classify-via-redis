@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'redis'
+
+@r = Redis.new(:host => 'parrot.ib', :port =>6380, :timeout=>6000)
+
+if ARGV.size != 1 or !(ARGV.first =~ /\A[0-9]+\Z/)
+  STDERR.puts "USAGE: 061-classify-in-ruby <runlength>"
+  exit 1
+end
+
+RUNLEN = ARGV.first.to_i
+
+def classifier1(seq)
+  sset_positions = (0..(seq.size - RUNLEN - 1)).zip((RUNLEN - 1)..(seq.size))
+  ssets = sset_positions.collect{|start,stop| seq[start..stop]}
+  
+  # Look up the frequencies of the patterns from a RAM data store
+  biol_counts, shuf_counts = if ssets.size > 0
+    [
+      @r.hmget("freqs-#{RUNLEN}-mers-biol", *ssets),
+      @r.hmget("freqs-#{RUNLEN}-mers-shuf", *ssets)
+    ]
+  else; [[], []]; end
+
+  # Convert to integers. Default to 1 if the pattern is not found.
+  biol_counts.collect!{|x| x ? x.to_i : 1}
+  shuf_counts.collect!{|x| x ? x.to_i : 1}
+
+  side_by_side = biol_counts.zip(shuf_counts)
+
+  # Divide the larger by smaller count
+  ratios = side_by_side.collect{|x| x.max.to_f / x.min}
+  #puts ratios
+
+  # Remove all the ties (ratio == 1)
+  ratios.collect!{|x| x == 1 ? 0 : x}
+
+  # Negate those where shuffled was larger
+  side_by_side.each_with_index do |x, i|
+    biol, shuff = x
+    ratios[i] *= -1 if biol < shuff
+  end
+
+  # Final score
+  score = ratios.inject(nil){ |sum,x| sum ? sum+x : x }
+
+  # Return 0 if score is nil
+  score ? score : 0
+
+end
+
+STDIN.each do |line|
+  x = line.split("\t")
+
+  if x.size != 2
+    STDERR.puts "WARNING: Malformat on line #{STDIN.lineno}"
+    next
+  end
+
+  seq = x[1]
+  score = classifier1(seq)
+
+  STDOUT.puts score
+  STDOUT.flush
+end
