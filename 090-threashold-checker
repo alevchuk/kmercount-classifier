@@ -1,0 +1,2 @@
+#!/usr/bin/ruby
+threashold = 9; mers=7; ["biol", "shuff"].each{|t| filename="class-predictions-#{mers}p-1ps-#{t}"; puts File.open(filename){|f| f.readlines.collect{|i| i.to_f > threashold}.inject(0){|sum, x| x ? sum += 1 : sum}} / `wc -l #{filename}`.to_f}
