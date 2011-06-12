@@ -1,7 +1,17 @@
+2-mers
+######
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-runlen2.png" /></div>
+3-mers
+######
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-runlen3.png" /></div>
+4-mers
+######
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-runlen4.png" /></div>
+5-mers
+######
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-runlen5.png" /></div>
+6-mers
+######
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-runlen6.png" /></div>
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-7.png" /></div>
 
