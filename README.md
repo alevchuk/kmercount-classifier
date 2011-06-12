@@ -1,5 +1,4 @@
-2-mers
-######
+# 2-mers #
 <div><img alt="" src="https://github.com/alevchuk/nmercount-classifier/raw/master/fig-runlen2.png" /></div>
 3-mers
 ######
